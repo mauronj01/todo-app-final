@@ -41,6 +41,18 @@ jobs:
           output_location: "." # Built app content directory - optional
           ###### End of Repository/Build Configurations ######
 
+      - name: Attendre quelques secondes pour le déploiement
+        run: sleep 20s
+
+      - name: Exécuter Lighthouse
+        uses: treosh/lighthouse-ci-action@v9
+        with:
+          urls: "https://todo.baq.emf-informatique.ch/" # Remplace par l'URL de ton app déployée
+          configPath: ".lighthouserc.json" # Facultatif, pour configurer Lighthouse
+          uploadArtifacts: true # Pour voir les rapports dans GitHub Actions
+          temporaryPublicStorage: true # Partage temporaire des rapports
+
+
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
     runs-on: ubuntu-latest
