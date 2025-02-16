@@ -48,7 +48,7 @@ jobs:
         uses: treosh/lighthouse-ci-action@v9
         with:
           urls: "https://todo.baq.emf-informatique.ch/" # Remplace par l'URL de ton app déployée
-          configPath: ".lighthouserc.json" # Facultatif, pour configurer Lighthouse
+          #configPath: ".lighthouserc.json" # Facultatif, pour configurer Lighthouse
           uploadArtifacts: true # Pour voir les rapports dans GitHub Actions
           temporaryPublicStorage: true # Partage temporaire des rapports
 
