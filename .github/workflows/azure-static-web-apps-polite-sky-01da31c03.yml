@@ -49,6 +49,7 @@ jobs:
         with:
           urls: "https://todo.baq.emf-informatique.ch/" # Remplace par l'URL de ton app déployée
           #configPath: ".lighthouserc.json" # Facultatif, pour configurer Lighthouse
+          budgetPath: "budgets.json"
           uploadArtifacts: false # Pour voir les rapports dans GitHub Actions
           temporaryPublicStorage: true # Partage temporaire des rapports
 
