@@ -45,7 +45,7 @@ jobs:
         run: sleep 20s
 
       - name: Exécuter Lighthouse
-        uses: treosh/lighthouse-ci-action@v9
+        uses: treosh/lighthouse-ci-action@v12
         with:
           urls: "https://todo.baq.emf-informatique.ch/" # Remplace par l'URL de ton app déployée
           #configPath: ".lighthouserc.json" # Facultatif, pour configurer Lighthouse
