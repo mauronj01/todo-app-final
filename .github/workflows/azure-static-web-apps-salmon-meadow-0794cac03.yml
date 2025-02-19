@@ -34,11 +34,11 @@ jobs:
            result-encoding: string
       - name: verify           
         run: |
-          if [ ! -f "${{ env.APP_LOCATION }}/index.html" ]; then
-          echo "❌ Error: index.html not found in ${{ env.APP_LOCATION }}"
+          if [ ! -f "${{ env.app_location }}/index.html" ]; then
+          echo "❌ Error: index.html not found in ${{ env.app_location }}"
           exit 1
           else
-          echo "✅ index.html found in ${{ env.APP_LOCATION }}"
+          echo "✅ index.html found in ${{ env.app_location }}"
           fi
 
       - name: Build And Deploy
