@@ -34,11 +34,11 @@ jobs:
            result-encoding: string
       - name: verify           
         run: |
-          if [ ! -f "./src/index.html" ]; then
-          echo "❌ Error: index.html not found in ./src/index.html"
+          if [ ! -f "./src/frontend/index.html" ]; then
+          echo "❌ Error: index.html not found in ./src/frontend/index.html"
           exit 1
           else
-          echo "✅ index.html found in ./src/index.html"
+          echo "✅ index.html found in ./src/frontend/index.html"
           fi
       - name: Build And Deploy
         id: builddeploy
