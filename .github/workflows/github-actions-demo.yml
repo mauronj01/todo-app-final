@@ -1,18 +1,39 @@
-name: GitHub Actions Demo
-run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
-on: [push]
+name: Build and save my Docker image to a registry
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'backend/**'  # Ne déclenche que si des fichiers dans le dossier backend sont modifiés
+
+env:
+  REG_NAME: "nomduregistre" # Nom du registre sans "azurecr.io"
+  IMAGE_NAME: "todo-app"    # Nom de votre image dans acr
+
 jobs:
-  Explore-GitHub-Actions:
+  build-and-deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      - name: Check out repository code
-        uses: actions/checkout@v4
-      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-      - name: List files in the repository
+      # Étape 1 : Cloner le repo
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Étape 2 : Se connecter à Azure Container Registry
+      - name: Login to Azure Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REG_NAME }}.azurecr.io
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
+
+      # Étape 3 : Construire l'image Docker
+      - name: Build Docker image
         run: |
-          ls ${{ github.workspace }}
-      - run: echo "🍏 This job's status is ${{ job.status }}."
+          docker build -t ${{ env.REG_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:latest ./backend
+
+      # Étape 4 : Pousser l'image Docker dans le registre
+      - name: Push Docker image to ACR
+        run: |
+          docker push ${{ env.REG_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:latest
