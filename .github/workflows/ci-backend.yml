@@ -35,3 +35,19 @@ jobs:
         run: |
           docker push $REG_NAME/c213-emf/$IMAGE_NAME:raa
  
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build-and-deploy
+    environment:
+      name: 'production'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+
+    steps:
+    - name: Deploy to Azure Web App
+      id: deploy-to-webapp
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: 'wa-210-300722-mauron-julien'
+        slot-name: 'production'
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_50d6ca29e3b146e49702921229be6ee9 }}
+        images: 'acr300722210.azurecr.io/c213-emf/todo-app-maj:${{ github.sha }}'
