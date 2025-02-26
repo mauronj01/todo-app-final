@@ -15,28 +15,27 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: connection to repo
+      - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
           registry: "exo.container-registry.com"
           username: "quentin.badoud@edufr.ch"
           password: ${{ secrets.EXO_REGISTRY_EMF }}
-
-      - name: build docker image
-        working-directory: ./src/backend
-        run: |
-          docker build -t $IMAGE_NAME .
-
-
-      - name: tag image
-        run: |
-          docker tag $IMAGE_NAME $REG_NAME/c213-emf/$IMAGE_NAME:raa
-
-      - name: push image 
-        run: |
-          docker push $REG_NAME/c213-emf/$IMAGE_NAME:raa
+          
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+        
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: ./src/backend
+          push: true
+          tags: exo.container-registry.com/c213-emf/todo-app-mauj:latest
  
   deploy:
     runs-on: ubuntu-latest
