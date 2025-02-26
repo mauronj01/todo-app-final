@@ -52,4 +52,4 @@ jobs:
         app-name: 'wa-210-300722-mauron-julien'
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_50d6ca29e3b146e49702921229be6ee9 }}
-        images: 'acr300722210.azurecr.io/c213-emf/todo-app-maj:latest'
+        images: 'exo.container-registry.com/c213-emf/todo-app-mauj:latest'
